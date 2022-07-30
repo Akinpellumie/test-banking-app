@@ -5,10 +5,28 @@ import 'package:mobile_banking_app/screens/others/components/custom_list_menu_it
 import 'package:mobile_banking_app/utils/helpers.dart';
 
 import '../../utils/constants.dart';
+import '../../utils/security_tip_modal.dart';
 import '../../widgets/custom_back_button.dart';
 
-class MoreOptionScreen extends StatelessWidget {
+class MoreOptionScreen extends StatefulWidget {
   const MoreOptionScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MoreOptionScreen> createState() => _MoreOptionScreenState();
+}
+
+class _MoreOptionScreenState extends State<MoreOptionScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      SecurityTipModal.securityTipPopup(
+        context,
+        'SECURITY TIPS',
+        'Do not respond to emails that claim to be from Test Mobile Bank (or any other company) requesting your account details or login credentials (username/password). We will never ask for your personal information online.',
+      );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

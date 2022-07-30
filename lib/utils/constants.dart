@@ -35,6 +35,12 @@ const String kDefaultFont = 'NotoSans';
 //frame sizes
 const double kFrameDefaultHeight = 60.0;
 
+//error message string
+const String kErrorMessage =
+    'Something went wrong while making request. Please check your internet and try again.';
+const String kExceptionMessage =
+    "An unknown error occured. Don't panic; it's us not you! Please contact support for more information or check back later.";
+
 const rowSpacer = TableRow(
   children: [
     SizedBox(

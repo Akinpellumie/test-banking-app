@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:mobile_banking_app/utils/security_tip_modal.dart';
+import 'package:provider/provider.dart';
 
 import '../../helpers/theme_helper.dart';
+import '../../helpers/string_helper.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../utils/snackbar_content_type.dart';
+import '../../view_models/auth/login_view_model.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
 import '../../widgets/custom_snackbar.dart';
@@ -27,7 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
       _obscureText = !_obscureText;
     });
   }
-void _showsnackbar() {
+
+  void _showsnackbar() {
     var snackBar = SnackBar(
       /// need to set following properties for best effect of awesome_snackbar_content
       elevation: 0,
@@ -49,13 +54,19 @@ void _showsnackbar() {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-    _showsnackbar();
+      //_showsnackbar();
+      SecurityTipModal.securityTipPopup(
+        context,
+        'SECURITY TIPS',
+        'Make sure to use different user IDs and passwords for your financial accounts and for any other sites you use online. Never reveal your password to anyone or leave your password anywhere that someone else can obtain and use it. Change your password on a regular basis.',
+      );
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    LoginViewModel _loginViewModel = context.watch<LoginViewModel>();
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
@@ -132,31 +143,27 @@ void _showsnackbar() {
                         children: [
                           const SizedBox(height: 15.0),
                           Form(
-                            //key: _loginViewModel.formKey,
+                            key: _loginViewModel.formKey,
                             child: Column(
                               children: [
                                 Container(
                                   child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
+                                    readOnly: _loginViewModel.loggingIn,
                                     decoration: ThemeHelper()
                                         .textInputDecoration(
-                                            'User ID', 'Enter your user ID'),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "User ID",
-                                        //   'Enter a valid user ID',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("userId");
+                                            'Username', 'Enter valid username'),
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter username';
                                       }
-                                      return null;
+                                      if (!val.isValidUserName) {
+                                        return 'Enter valid username';
+                                      } else {
+                                        return null;
+                                      }
                                     },
-                                    // controller:
-                                    //     _loginViewModel.userIdController,
+                                    controller:
+                                        _loginViewModel.usernameController,
                                     keyboardType: TextInputType.text,
                                   ),
                                   decoration:
@@ -165,9 +172,9 @@ void _showsnackbar() {
                                 const SizedBox(height: 40.0),
                                 Container(
                                   child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
-                                    // controller:
-                                    //     _loginViewModel.passwordController,
+                                    readOnly: _loginViewModel.loggingIn,
+                                    controller:
+                                        _loginViewModel.passwordController,
                                     obscureText: _obscureText,
                                     obscuringCharacter: "*",
                                     decoration:
@@ -185,19 +192,15 @@ void _showsnackbar() {
                                         onPressed: _toggle,
                                       ),
                                     ),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "Password",
-                                        //   'Enter a valid password',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("password");
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter password';
                                       }
-                                      return null;
+                                      if (!val.isValidPassword) {
+                                        return 'Enter valid password';
+                                      } else {
+                                        return null;
+                                      }
                                     },
                                   ),
                                   decoration:

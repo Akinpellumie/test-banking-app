@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:mobile_banking_app/model/delegate/delegate_model.dart';
 import 'package:mobile_banking_app/utils/snackbar_content_type.dart';
 import 'package:mobile_banking_app/widgets/add_delegate_modal.dart';
 import 'package:mobile_banking_app/widgets/custom_snackbar.dart';
+import 'package:provider/provider.dart';
 
 import '../../helpers/theme_helper.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/security_tip_modal.dart';
+import '../../view_models/auth/register_view_model.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
+import '../../helpers/string_helper.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -36,35 +40,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-  void _showsnackbar() {
-    var snackBar = SnackBar(
-      /// need to set following properties for best effect of awesome_snackbar_content
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: CustomSnackbar(
-        title: 'SECURITY TIPS',
-        message:
-            'Using a strong password (one that is not easily guessed by a human or computer) will have eight or more characters, including letters, numbers and symbols!',
-
-        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-        contentType: SnackbarContentType.success,
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
+  
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-    _showsnackbar();
+      SecurityTipModal.securityTipPopup(
+        context,
+        'SECURITY TIPS',
+        'Using a strong password (one that is not easily guessed by a human or computer) will have eight or more characters, including letters, numbers and symbols!',
+      );
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    RegisterViewModel _registerViewModel = context.watch<RegisterViewModel>();
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
@@ -143,31 +134,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           const SizedBox(height: 15.0),
                           Form(
-                            //key: _loginViewModel.formKey,
+                            key: _registerViewModel.registerFormKey,
                             child: Column(
                               children: [
                                 Container(
                                   child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
+                                    readOnly: _registerViewModel.creatingAcct,
                                     decoration: ThemeHelper()
-                                        .textInputDecoration('First Name',
-                                            'Enter your first name'),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "User ID",
-                                        //   'Enter a valid user ID',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("userId");
+                                        .textInputDecoration(
+                                            'Full Name', 'Enter full name'),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s"),
+                                      )
+                                    ],
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter preferred name';
                                       }
-                                      return null;
+                                      if (!val.isValidName) {
+                                        return 'Enter valid name';
+                                      } else {
+                                        return null;
+                                      }
                                     },
-                                    // controller:
-                                    //     _loginViewModel.userIdController,
+                                    controller:
+                                        _registerViewModel.fullnameController,
                                     keyboardType: TextInputType.text,
                                   ),
                                   decoration:
@@ -176,26 +168,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 const SizedBox(height: 20.0),
                                 Container(
                                   child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
-                                    decoration: ThemeHelper()
-                                        .textInputDecoration('Last Name',
-                                            'Enter your last name'),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "User ID",
-                                        //   'Enter a valid user ID',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("userId");
+                                    readOnly: _registerViewModel.creatingAcct,
+                                    decoration:
+                                        ThemeHelper().textInputDecoration(
+                                      'Username',
+                                      'Enter preferred username',
+                                    ),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z0-9]+|\s"),
+                                      ),
+                                    ],
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter preferred username';
                                       }
-                                      return null;
+                                      // if (!val.isValidUserName) {
+                                      //   return 'Enter valid username';
+                                      // }
+                                      else {
+                                        return null;
+                                      }
                                     },
-                                    // controller:
-                                    //     _loginViewModel.userIdController,
+                                    controller:
+                                        _registerViewModel.usernameController,
                                     keyboardType: TextInputType.text,
                                   ),
                                   decoration:
@@ -204,26 +200,105 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 const SizedBox(height: 20.0),
                                 Container(
                                   child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
+                                    readOnly: _registerViewModel.creatingAcct,
+                                    decoration:
+                                        ThemeHelper().textInputDecoration(
+                                      'Email',
+                                      'Enter email address',
+                                    ),
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter preferred email';
+                                      }
+                                      if (!val.isValidEmail) {
+                                        return 'Enter valid email';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    controller:
+                                        _registerViewModel.emailController,
+                                    keyboardType: TextInputType.text,
+                                  ),
+                                  decoration:
+                                      ThemeHelper().inputBoxDecorationShaddow(),
+                                ),
+                                const SizedBox(height: 20.0),
+                                Container(
+                                  child: TextFormField(
+                                    readOnly: _registerViewModel.creatingAcct,
+                                    decoration: ThemeHelper()
+                                        .textInputDecoration(
+                                            'Bank Name', 'Enter bank name'),
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter bank name';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    controller:
+                                        _registerViewModel.banknameController,
+                                    keyboardType: TextInputType.text,
+                                  ),
+                                  decoration:
+                                      ThemeHelper().inputBoxDecorationShaddow(),
+                                ),
+                                const SizedBox(height: 20.0),
+                                Container(
+                                  child: TextFormField(
+                                    readOnly: _registerViewModel.creatingAcct,
+                                    decoration: ThemeHelper()
+                                        .textInputDecoration('Account Name',
+                                            'Enter account name'),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s"),
+                                      ),
+                                    ],
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter account name';
+                                      }
+                                      if (!val.isValidName) {
+                                        return 'Enter valid account name';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    controller:
+                                        _registerViewModel.acctnameController,
+                                    keyboardType: TextInputType.text,
+                                  ),
+                                  decoration:
+                                      ThemeHelper().inputBoxDecorationShaddow(),
+                                ),
+                                const SizedBox(height: 20.0),
+                                Container(
+                                  child: TextFormField(
+                                    maxLength: 10,
+                                    readOnly: _registerViewModel.creatingAcct,
                                     decoration: ThemeHelper()
                                         .textInputDecoration('Account Number',
-                                            'Enter your account number'),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "User ID",
-                                        //   'Enter a valid user ID',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("userId");
+                                            'Enter account number'),
+                                    // inputFormatters: [
+                                    //   FilteringTextInputFormatter.allow(
+                                    //     RegExp(r"[0-9]"),
+                                    //   )
+                                    // ],
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter account number';
                                       }
-                                      return null;
+                                      // if (!val.isValidPhone) {
+                                      //   return 'Enter valid account number';
+                                      // }
+                                      else {
+                                        return null;
+                                      }
                                     },
-                                    // controller:
-                                    //     _loginViewModel.userIdController,
+                                    controller:
+                                        _registerViewModel.acctnumberController,
                                     keyboardType: TextInputType.text,
                                   ),
                                   decoration:
@@ -232,38 +307,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 const SizedBox(height: 20.0),
                                 Container(
                                   child: TextFormField(
-                                    maxLength: 11,
-                                    //readOnly: _loginViewModel.loggingIn,
-                                    decoration: ThemeHelper()
-                                        .textInputDecoration('Phone Number',
-                                            'Enter your phone number'),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "User ID",
-                                        //   'Enter a valid user ID',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("userId");
-                                      }
-                                      return null;
-                                    },
-                                    // controller:
-                                    //     _loginViewModel.userIdController,
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                  decoration:
-                                      ThemeHelper().inputBoxDecorationShaddow(),
-                                ),
-                                const SizedBox(height: 20.0),
-                                Container(
-                                  child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
-                                    // controller:
-                                    //     _loginViewModel.passwordController,
+                                    readOnly: _registerViewModel.creatingAcct,
+                                    controller:
+                                        _registerViewModel.passwordController,
                                     obscureText: _obscureText,
                                     obscuringCharacter: "*",
                                     decoration:
@@ -281,19 +327,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         onPressed: _toggle,
                                       ),
                                     ),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "Password",
-                                        //   'Enter a valid password',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("password");
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Enter password';
                                       }
-                                      return null;
+                                      // if (!val.isValidPassword) {
+                                      //   return 'Enter valid password';
+                                      // }
+                                      else {
+                                        return null;
+                                      }
                                     },
                                   ),
                                   decoration:
@@ -498,10 +541,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   height: 30.0,
                                 ),
                                 AppButton(
+                                  loading: _registerViewModel.creatingAcct,
                                   type: ButtonType.primary,
                                   text: "Create Account",
                                   onPressed: () {
-                                    nextScreen(context, "/login");
+                                    //nextScreen(context, "/login");
+                                    _registerViewModel.registerUser(context);
                                   },
                                 ),
                                 const SizedBox(

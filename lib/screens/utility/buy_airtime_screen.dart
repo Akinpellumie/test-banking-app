@@ -4,6 +4,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 import '../../helpers/theme_helper.dart';
 import '../../utils/constants.dart';
+import '../../utils/security_tip_modal.dart';
 import '../../utils/snackbar_content_type.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
@@ -17,7 +18,7 @@ class BuyAirtimeScreen extends StatefulWidget {
 }
 
 class _BuyAirtimeScreenState extends State<BuyAirtimeScreen> {
-   void _showsnackbar() {
+  void _showsnackbar() {
     var snackBar = SnackBar(
       /// need to set following properties for best effect of awesome_snackbar_content
       elevation: 0,
@@ -39,10 +40,15 @@ class _BuyAirtimeScreenState extends State<BuyAirtimeScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-    _showsnackbar();
+      SecurityTipModal.securityTipPopup(
+        context,
+        'SECURITY TIPS',
+        'Use the Exit button to end each Online Banking session.\nDo not use the Back button to exit the site.\nBalance your account on a regular basis to make sure that no unauthorized transactions have taken place. \nInstall and maintain up-to-date operating system security patches and anti-virus software on your devices.',
+      );
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

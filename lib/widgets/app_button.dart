@@ -9,13 +9,15 @@ class AppButton extends StatelessWidget {
   final ButtonType type;
   final VoidCallback onPressed;
   final String text;
+  final bool loading;
 
-  const AppButton(
-      {Key? key,
-      required this.type,
-      required this.onPressed,
-      required this.text})
-      : super(key: key);
+  const AppButton({
+    Key? key,
+    required this.type,
+    required this.onPressed,
+    required this.text,
+    this.loading = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +42,25 @@ class AppButton extends StatelessWidget {
           ],
         ),
         child: Center(
-          child: Text(
-            text,
-            style: GoogleFonts.mulish(
-              color: getTextColor(type),
-              fontSize: 16.0,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          child: loading
+              ? const SizedBox(
+                  width: 30.0,
+                  height: 30.0,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Colors.white,
+                    ),
+                  ),
+                )
+              : Text(
+                  text,
+                  style: TextStyle(
+                    color: getTextColor(type),
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: kDefaultFont,
+                  ),
+                ),
         ),
       ),
     );

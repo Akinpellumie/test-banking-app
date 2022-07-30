@@ -10,6 +10,8 @@ import 'package:mobile_banking_app/screens/others/payment_history_screen.dart';
 import 'package:mobile_banking_app/screens/send/send_money_screen.dart';
 import 'package:mobile_banking_app/screens/utility/buy_airtime_screen.dart';
 import 'package:mobile_banking_app/screens/utility/pay_bill_screen.dart';
+import 'package:mobile_banking_app/view_models/auth/login_view_model.dart';
+import 'package:mobile_banking_app/view_models/auth/register_view_model.dart';
 import 'package:mobile_banking_app/view_models/delegate/delegate_modal_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +24,12 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (_) => DelegateModalViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LoginViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RegisterViewModel(),
         ),
       ],
       child: const MyApp(),

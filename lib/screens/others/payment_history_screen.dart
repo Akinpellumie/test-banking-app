@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../utils/constants.dart';
+import '../../utils/security_tip_modal.dart';
 import '../../widgets/custom_back_button.dart';
 import '../../widgets/payment_history_list.dart';
 
@@ -13,6 +14,18 @@ class PaymentHistoryScreen extends StatefulWidget {
 }
 
 class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      SecurityTipModal.securityTipPopup(
+        context,
+        'SECURITY TIPS',
+        'Using a strong password (one that is not easily guessed by a human or computer) will have eight or more characters, including letters, numbers and symbols.',
+      );
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

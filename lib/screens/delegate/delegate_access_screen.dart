@@ -4,6 +4,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 import '../../helpers/theme_helper.dart';
 import '../../utils/constants.dart';
+import '../../utils/security_tip_modal.dart';
 import '../../utils/snackbar_content_type.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
@@ -19,29 +20,15 @@ class DelegateAccessScreen extends StatefulWidget {
 
 class _DelegateAccessScreenState extends State<DelegateAccessScreen> {
   String selectedDelegate = '';
-  void _showsnackbar() {
-    var snackBar = SnackBar(
-      /// need to set following properties for best effect of awesome_snackbar_content
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: CustomSnackbar(
-        title: 'SECURITY TIPS',
-        message:
-            'Do not respond to emails that claim to be from Test Mobile Bank (or any other company) requesting your account details or login credentials (username/password). We will never ask for your personal information online.',
-
-        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-        contentType: SnackbarContentType.success,
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      _showsnackbar();
+      SecurityTipModal.securityTipPopup(
+        context,
+        'SECURITY TIPS',
+        'Do not respond to emails that claim to be from Test Mobile Bank (or any other company) requesting your account details or login credentials (username/password). We will never ask for your personal information online.',
+      );
     });
     super.initState();
   }
