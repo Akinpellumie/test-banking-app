@@ -78,7 +78,6 @@ class RegisterViewModel extends ChangeNotifier {
 
         _toggleCreatingAcct(false);
         if (result.response != null && result.statusCode == 200) {
-          //List<dynamic> res = result.response as List<dynamic>;
           String response = result.response;
           if (response.isNotEmpty && response.contains("true")) {
             displayToast("Account created successfully. Proceed to Login",
@@ -92,12 +91,12 @@ class RegisterViewModel extends ChangeNotifier {
             _passwordController.text = '';
             Navigator.pop(context);
           } else {
-            var str = response.split(',');
+            var str = getApiResponse(response);
             print(str);
-            displayToast(response[1], kPrimaryColor);
+            displayToast(str[1], kPrimaryColor);
             return;
           }
-        } else if (result.statusCode == 200 || result.response == null) {
+        } else if (result.statusCode == 200 && result.response == null) {
           displayToast(
               "Invalid credentials provided. Please check and try again.",
               kRedColor);

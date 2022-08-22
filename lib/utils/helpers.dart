@@ -37,3 +37,9 @@ int getHttpStatus(int status) {
     return 0;
   }
 }
+
+List<String> getApiResponse(String value) {
+  var val = value.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '');
+  var vals = val.split(",");
+  return vals;
+}

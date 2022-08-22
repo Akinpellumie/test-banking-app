@@ -204,14 +204,14 @@ class AddDelegateModal {
                               fontSize: kNormalText),
                         ),
                       ),
-                      const SizedBox(height: 40.0),
+                      const SizedBox(height: 40.0,),
                       AppButton(
                         type: ButtonType.primary,
                         text: "Add Delegate",
                         onPressed: () => viewModel.addDelegate(context),
                       ),
                       const SizedBox(
-                        height: 20.0,
+                        height: 50.0,
                       ),
                     ],
                   ),

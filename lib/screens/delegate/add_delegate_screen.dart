@@ -14,14 +14,14 @@ import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
 import '../../helpers/string_helper.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class AddDelegateScreen extends StatefulWidget {
+  const AddDelegateScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<AddDelegateScreen> createState() => _AddDelegateScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _AddDelegateScreenState extends State<AddDelegateScreen> {
   // Initially password is obscure
   bool _obscureText = true;
   String firstDelegate = '';
@@ -90,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 20.0,
                         ),
                         Text(
-                          "Let's get started",
+                          "Delegate Management",
                           style:
                               Theme.of(context).textTheme.headline6!.copyWith(
                                     fontWeight: FontWeight.w600,
@@ -101,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 10.0,
                         ),
                         const Text(
-                          "Please enter your basic informations to get started.",
+                          "Fill all entry fields below to add a new delegate.",
                           style: TextStyle(
                               color: kWhiteColor,
                               fontWeight: FontWeight.normal,
@@ -140,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     readOnly: _registerViewModel.creatingAcct,
                                     decoration: ThemeHelper()
                                         .textInputDecoration(
-                                            'Full Name', 'Enter full name'),
+                                            'Full Name', 'Enter delegate full name'),
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(
                                         RegExp(r"[a-zA-Z]+|\s"),
@@ -170,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     decoration:
                                         ThemeHelper().textInputDecoration(
                                       'Username',
-                                      'Enter preferred username',
+                                      'Enter delegate preferred username',
                                     ),
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(
@@ -179,7 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ],
                                     validator: (val) {
                                       if (val!.isEmpty) {
-                                        return 'Enter preferred username';
+                                        return 'Enter delegate preferred username';
                                       }
                                       // if (!val.isValidUserName) {
                                       //   return 'Enter valid username';
@@ -202,11 +202,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     decoration:
                                         ThemeHelper().textInputDecoration(
                                       'Email',
-                                      'Enter email address',
+                                      'Enter delegate email address',
                                     ),
                                     validator: (val) {
                                       if (val!.isEmpty) {
-                                        return 'Enter preferred email';
+                                        return 'Enter delegate preferred email';
                                       }
                                       if (!val.isValidEmail) {
                                         return 'Enter valid email';
@@ -227,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     readOnly: _registerViewModel.creatingAcct,
                                     decoration: ThemeHelper()
                                         .textInputDecoration(
-                                            'Bank Name', 'Enter bank name'),
+                                            'Bank Name', 'Enter delegate bank name'),
                                     validator: (val) {
                                       if (val!.isEmpty) {
                                         return 'Enter bank name';

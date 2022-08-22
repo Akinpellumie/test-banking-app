@@ -4,22 +4,14 @@ import '../../config/request_helper.dart';
 import '../../helpers/tuple.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
-import 'register_repository.dart';
+import 'send_repository.dart';
 
-class RegisterRepositoryImpl implements RegisterRepository {
+class SendRepositoryImpl implements SendRepository {  
   @override
-  Future<Tuple> createAccount(
-    String fullname,
-    String email,
-    String username,
-    String acctnumber,
-    String acctname,
-    String bankname,
-    String password,
-  ) async {
+  Future<Tuple> sendMoney(String acctName, String bankCode, String amount, String acctnumber, String userId) async{
     try {
-      String url = ApiUrl.registerUrl +
-          "name=$fullname&username=$username&email=$email&account_number=$acctnumber&account_name=$acctname&bank_name=$bankname&password=$password";
+      String url = ApiUrl.transferUrl +
+          "an=$acctnumber&bn=$bankCode&amt=$amount&acc_name=$acctName&uid=$userId";
       var data = await RequestHelper.getApi(
         url,
       );
@@ -38,4 +30,9 @@ class RegisterRepositoryImpl implements RegisterRepository {
       return Tuple(response: null, error: kExceptionMessage, statusCode: 0);
     }
   }
+  
+  // @override
+  // Future<Tuple> getBankList() {
+  //   // TODO: implement getBankList
+  // }
 }

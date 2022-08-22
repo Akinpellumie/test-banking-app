@@ -5,6 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import '../../helpers/theme_helper.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/security_tip_modal.dart';
 import '../../utils/snackbar_content_type.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
@@ -28,29 +29,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     });
   }
 
-  void _showsnackbar() {
-    var snackBar = SnackBar(
-      /// need to set following properties for best effect of awesome_snackbar_content
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: CustomSnackbar(
-        title: 'SECURITY TIPS',
-        message:
-            'Make sure to use different user IDs and passwords for your financial accounts and for any other sites you use online. \nNever reveal your password to anyone or leave your password anywhere that someone else can obtain and use it.\nChange your password on a regular basis.',
-
-        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-        contentType: SnackbarContentType.success,
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      _showsnackbar();
+      SecurityTipModal.securityTipPopup(
+        context,
+        'SECURITY TIPS',
+        'Make sure to use different user IDs and passwords for your financial accounts and for any other sites you use online. Never reveal your password to anyone or leave your password anywhere that someone else can obtain and use it. Change your password on a regular basis.',
+      );
     });
     super.initState();
   }

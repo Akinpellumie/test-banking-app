@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:mobile_banking_app/utils/security_tip_modal.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/theme_helper.dart';
-import '../../helpers/string_helper.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
-import '../../utils/snackbar_content_type.dart';
 import '../../view_models/auth/login_view_model.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
-import '../../widgets/custom_snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -32,29 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _showsnackbar() {
-    var snackBar = SnackBar(
-      /// need to set following properties for best effect of awesome_snackbar_content
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: CustomSnackbar(
-        title: 'SECURITY TIPS',
-        message:
-            'Make sure to use different user IDs and passwords for your financial accounts and for any other sites you use online. Never reveal your password to anyone or leave your password anywhere that someone else can obtain and use it. Change your password on a regular basis.',
-
-        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-        contentType: SnackbarContentType.success,
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      //_showsnackbar();
       SecurityTipModal.securityTipPopup(
         context,
         'SECURITY TIPS',
@@ -155,9 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     validator: (val) {
                                       if (val!.isEmpty) {
                                         return 'Enter username';
-                                      }
-                                      if (!val.isValidUserName) {
-                                        return 'Enter valid username';
                                       } else {
                                         return null;
                                       }
@@ -195,9 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     validator: (val) {
                                       if (val!.isEmpty) {
                                         return 'Enter password';
-                                      }
-                                      if (!val.isValidPassword) {
-                                        return 'Enter valid password';
                                       } else {
                                         return null;
                                       }
@@ -206,29 +176,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration:
                                       ThemeHelper().inputBoxDecorationShaddow(),
                                 ),
-                                const SizedBox(height: 15.0),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: const Text(
-                                      "Forgot Password?",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        color: kPrimaryColor,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
                                 const SizedBox(
-                                  height: 20.0,
+                                  height: 50.0,
                                 ),
                                 AppButton(
                                   type: ButtonType.primary,
                                   text: "Log In",
+                                  loading: _loginViewModel.loggingIn,
                                   onPressed: () {
-                                    nextScreen(context, "/home");
+                                    _loginViewModel.loginUser(context);
                                   },
                                   // onPressed: () {},
                                 ),

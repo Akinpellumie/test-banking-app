@@ -5,10 +5,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 import '../../helpers/theme_helper.dart';
 import '../../utils/constants.dart';
 import '../../utils/security_tip_modal.dart';
-import '../../utils/snackbar_content_type.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
-import '../../widgets/custom_snackbar.dart';
 
 class BuyAirtimeScreen extends StatefulWidget {
   const BuyAirtimeScreen({Key? key}) : super(key: key);
@@ -18,25 +16,7 @@ class BuyAirtimeScreen extends StatefulWidget {
 }
 
 class _BuyAirtimeScreenState extends State<BuyAirtimeScreen> {
-  void _showsnackbar() {
-    var snackBar = SnackBar(
-      /// need to set following properties for best effect of awesome_snackbar_content
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: CustomSnackbar(
-        title: 'SECURITY TIPS',
-        message:
-            'Use the Exit button to end each Online Banking session.\nDo not use the Back button to exit the site.\nBalance your account on a regular basis to make sure that no unauthorized transactions have taken place. \nInstall and maintain up-to-date operating system security patches and anti-virus software on your devices.',
-
-        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-        contentType: SnackbarContentType.success,
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
+  
   @override
   void initState() {
     Future.delayed(Duration.zero, () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_banking_app/utils/shared_prefs.dart';
 
 import '../../config/request_helper.dart';
 import '../../helpers/tuple.dart';
@@ -53,42 +54,53 @@ class LoginViewModel extends ChangeNotifier {
     try {
       final form = _formKey.currentState;
       if (usernameController.text.isEmpty) {
-        displayToast("Enter a valid username", kPrimaryColor);
+        displayToast("Enter a valid username", kRedColor);
+        return;
       } else if (passwordController.text.isEmpty) {
-        displayToast("Enter a valid password", kPrimaryColor);
+        displayToast("Enter a valid password", kRedColor);
+        return;
       } else if (form!.validate() && _errorBag.keys.isEmpty) {
         _toggleLoggingIn(true);
-        Tuple result = await _authRepoImpl.login(_usernameController.text,_passwordController.text);
+        Tuple result = await _authRepoImpl.login(
+            _usernameController.text, _passwordController.text);
 
         _toggleLoggingIn(false);
         if (result.response != null && result.statusCode == 200) {
-          //print(json.encode(user.toJson()));
-          RequestHelper.userToken = result.response.message.token;
-          //gotoMainScreen(context, '/main');
+          List<String> res = getApiResponse(result.response);
+          print(res);
+          SharedPrefs.setString('userID', res[1]);
+
+          if (res[0] == "true") {
+            nextScreen(context, '/home');
+            displayToast(
+              "Login Successful with user (${res[1]}).",
+              kPrimaryColor,
+            );
+          } else {
+            displayToast(
+              "Invalid credentials. Please check and try again.",
+              kRedColor,
+            );
+          }
           _passwordController.text = "";
+        } else if (result.statusCode == 200 || result.response == null) {
+          displayToast(
+              "Something went wrong. Please contact support or try again later.",
+              kRedColor);
         } else if (result.statusCode != 200 || result.error != null) {
-          //showsnackbar(context, result.error, SnackbarContentType.failure);
+          displayToast(
+              "An error occured. Please contact support or try again later.",
+              kRedColor);
+        } else {
+          displayToast(
+              "Something went wrong while creating your account or maybe we're out of reach. Please check back later or contact support.",
+              kRedColor);
         }
-        else {
-        //print(_errorBag);
-        //showsnackbar(
-            // context,
-            // "Something went wrong while verifying you or maybe we're out of reach. Please check back later or contact support.",
-            // SnackbarContentType.failure);
-      }
       } else {
         print(_errorBag);
-        //showsnackbar(
-            // context,
-            // "Oops! Seems something is off. Please check back later or contact support.",
-            // SnackbarContentType.failure);
       }
     } on Exception catch (e) {
       print(e);
-      //showsnackbar(
-          // context,
-          // "An unkwown error occured. Please check back later or contact support.",
-          // SnackbarContentType.failure);
     } finally {
       _toggleLoggingIn(false);
     }
@@ -97,7 +109,6 @@ class LoginViewModel extends ChangeNotifier {
   @override
   void dispose() {
     print("Disposed");
-    //_userIdController.dispose();
     _passwordController.dispose();
     super.dispose();
   }

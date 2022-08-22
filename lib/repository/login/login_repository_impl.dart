@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:mobile_banking_app/model/auth/login_response_model.dart';
 
@@ -18,8 +17,7 @@ class LoginRepositoryImpl implements LoginRepository {
       var data = await RequestHelper.getApi(url);
       int status = getHttpStatus(data!.statusCode);
       if (status == 200) {
-        var result = loginResponseFromJson(jsonDecode(data.body));
-        return Tuple(response: result, error: null, statusCode: 200);
+        return Tuple(response: data.body, error: null, statusCode: 200);
       } else if (status >= 400 && status <= 409) {
         //var _error = ErrorModel.fromJson(jsonDecode(data.body));
         return Tuple(response: null, error: data, statusCode: data.statusCode);
