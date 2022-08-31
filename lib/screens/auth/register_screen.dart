@@ -38,7 +38,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-  
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -340,201 +339,202 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   decoration:
                                       ThemeHelper().inputBoxDecorationShaddow(),
                                 ),
-                                const SizedBox(height: 20.0),
-                                const Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Add a Delegate",
-                                    style: TextStyle(
-                                        color: kTextColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: kNormalText),
-                                  ),
-                                ),
-                                const SizedBox(height: 10.0),
-                                const Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "These delegate will be attached to your account and are liable to withdraw on your behalf.",
-                                    style: TextStyle(
-                                        color: kTextColor,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: kNormalText),
-                                  ),
-                                ),
-                                const SizedBox(height: 20.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      onTap: () async {
-                                        await AddDelegateModal.bottomModalPopup(
-                                                context)
-                                            .then((value) {
-                                          setState(() {
-                                            //var newValue = value as DelegateModel(f);
-                                            firstDelegateData = value;
-                                            firstDelegate = firstDelegateData ==
-                                                    null
-                                                ? ''
-                                                : getInitials(firstDelegateData!
-                                                        .firstName +
-                                                    " " +
-                                                    firstDelegateData!
-                                                        .lastName);
-                                          });
-                                        });
-                                      },
-                                      child: Container(
-                                        width: 60.0,
-                                        height: 60.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 50,
-                                                offset: const Offset(0, 30),
-                                                color: kDarkGrayColor
-                                                    .withOpacity(0.20),
-                                              ),
-                                            ],
-                                            color: kYellowColor),
-                                        child: firstDelegate.isEmpty
-                                            ? const Icon(
-                                                Icons.person_add,
-                                                color: kWhiteColor,
-                                                size: 30.0,
-                                              )
-                                            : Center(
-                                                child: Text(
-                                                  firstDelegate,
-                                                  style: const TextStyle(
-                                                      color: kWhiteColor,
-                                                      fontSize: 18.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: kDefaultFont),
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        await AddDelegateModal.bottomModalPopup(
-                                                context)
-                                            .then((value) {
-                                          setState(() {
-                                            //var newValue = value as DelegateModel(f);
-                                            secondDelegateData = value;
-                                            secondDelegate =
-                                                secondDelegateData == null
-                                                    ? ''
-                                                    : getInitials(
-                                                        secondDelegateData!
-                                                                .firstName +
-                                                            " " +
-                                                            secondDelegateData!
-                                                                .lastName);
-                                          });
-                                        });
-                                      },
-                                      child: Container(
-                                        width: 60.0,
-                                        height: 60.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 50,
-                                                offset: const Offset(0, 30),
-                                                color: kDarkGrayColor
-                                                    .withOpacity(0.20),
-                                              ),
-                                            ],
-                                            color: kYellowColor),
-                                        child: secondDelegate.isEmpty
-                                            ? const Icon(
-                                                Icons.person_add,
-                                                color: kWhiteColor,
-                                                size: 30.0,
-                                              )
-                                            : Center(
-                                                child: Text(
-                                                  secondDelegate,
-                                                  style: const TextStyle(
-                                                      color: kWhiteColor,
-                                                      fontSize: 18.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: kDefaultFont),
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        await AddDelegateModal.bottomModalPopup(
-                                                context)
-                                            .then((value) {
-                                          setState(() {
-                                            //var newValue = value as DelegateModel(f);
-                                            thirdDelegateData = value;
-                                            thirdDelegate = thirdDelegateData ==
-                                                    null
-                                                ? ''
-                                                : getInitials(thirdDelegateData!
-                                                        .firstName +
-                                                    " " +
-                                                    thirdDelegateData!
-                                                        .lastName);
-                                          });
-                                        });
-                                      },
-                                      child: Container(
-                                        width: 60.0,
-                                        height: 60.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 50,
-                                                offset: const Offset(0, 30),
-                                                color: kDarkGrayColor
-                                                    .withOpacity(0.20),
-                                              ),
-                                            ],
-                                            color: kYellowColor),
-                                        child: thirdDelegate.isEmpty
-                                            ? const Icon(
-                                                Icons.person_add,
-                                                color: kWhiteColor,
-                                                size: 30.0,
-                                              )
-                                            : Center(
-                                                child: Text(
-                                                  thirdDelegate,
-                                                  style: const TextStyle(
-                                                      color: kWhiteColor,
-                                                      fontSize: 18.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: kDefaultFont),
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5.0,
-                                    ),
-                                  ],
-                                ),
+                                // const SizedBox(height: 20.0),
+                                // const Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Text(
+                                //     "Add a Delegate",
+                                //     style: TextStyle(
+                                //         color: kTextColor,
+                                //         fontWeight: FontWeight.bold,
+                                //         fontSize: kNormalText),
+                                //   ),
+                                // ),
+                                // const SizedBox(height: 10.0),
+                                // const Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Text(
+                                //     "These delegate will be attached to your account and are liable to withdraw on your behalf.",
+                                //     style: TextStyle(
+                                //         color: kTextColor,
+                                //         fontWeight: FontWeight.normal,
+                                //         fontSize: kNormalText),
+                                //   ),
+                                // ),
+                                // const SizedBox(height: 20.0),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                //   children: <Widget>[
+                                //     GestureDetector(
+                                //       onTap: () async {
+                                //         await AddDelegateModal.bottomModalPopup(
+                                //                 context)
+                                //             .then((value) {
+                                //           setState(() {
+                                //             //var newValue = value as DelegateModel(f);
+                                //             firstDelegateData = value;
+                                //             firstDelegate = firstDelegateData ==
+                                //                     null
+                                //                 ? ''
+                                //                 : getInitials(firstDelegateData!
+                                //                         .firstName +
+                                //                     " " +
+                                //                     firstDelegateData!
+                                //                         .lastName);
+                                //           });
+                                //         });
+                                //       },
+                                //       child: Container(
+                                //         width: 60.0,
+                                //         height: 60.0,
+                                //         decoration: BoxDecoration(
+                                //             shape: BoxShape.circle,
+                                //             boxShadow: [
+                                //               BoxShadow(
+                                //                 blurRadius: 50,
+                                //                 offset: const Offset(0, 30),
+                                //                 color: kDarkGrayColor
+                                //                     .withOpacity(0.20),
+                                //               ),
+                                //             ],
+                                //             color: kYellowColor),
+                                //         child: firstDelegate.isEmpty
+                                //             ? const Icon(
+                                //                 Icons.person_add,
+                                //                 color: kWhiteColor,
+                                //                 size: 30.0,
+                                //               )
+                                //             : Center(
+                                //                 child: Text(
+                                //                   firstDelegate,
+                                //                   style: const TextStyle(
+                                //                       color: kWhiteColor,
+                                //                       fontSize: 18.0,
+                                //                       fontWeight:
+                                //                           FontWeight.bold,
+                                //                       fontFamily: kDefaultFont),
+                                //                 ),
+                                //               ),
+                                //       ),
+                                //     ),
+                                //     const SizedBox(
+                                //       width: 10.0,
+                                //     ),
+                                //     GestureDetector(
+                                //       onTap: () async {
+                                //         await AddDelegateModal.bottomModalPopup(
+                                //                 context)
+                                //             .then((value) {
+                                //           setState(() {
+                                //             //var newValue = value as DelegateModel(f);
+                                //             secondDelegateData = value;
+                                //             secondDelegate =
+                                //                 secondDelegateData == null
+                                //                     ? ''
+                                //                     : getInitials(
+                                //                         secondDelegateData!
+                                //                                 .firstName +
+                                //                             " " +
+                                //                             secondDelegateData!
+                                //                                 .lastName);
+                                //           });
+                                //         });
+                                //       },
+                                //       child: Container(
+                                //         width: 60.0,
+                                //         height: 60.0,
+                                //         decoration: BoxDecoration(
+                                //             shape: BoxShape.circle,
+                                //             boxShadow: [
+                                //               BoxShadow(
+                                //                 blurRadius: 50,
+                                //                 offset: const Offset(0, 30),
+                                //                 color: kDarkGrayColor
+                                //                     .withOpacity(0.20),
+                                //               ),
+                                //             ],
+                                //             color: kYellowColor),
+                                //         child: secondDelegate.isEmpty
+                                //             ? const Icon(
+                                //                 Icons.person_add,
+                                //                 color: kWhiteColor,
+                                //                 size: 30.0,
+                                //               )
+                                //             : Center(
+                                //                 child: Text(
+                                //                   secondDelegate,
+                                //                   style: const TextStyle(
+                                //                       color: kWhiteColor,
+                                //                       fontSize: 18.0,
+                                //                       fontWeight:
+                                //                           FontWeight.bold,
+                                //                       fontFamily: kDefaultFont),
+                                //                 ),
+                                //               ),
+                                //       ),
+                                //     ),
+                                //     const SizedBox(
+                                //       width: 10.0,
+                                //     ),
+                                //     GestureDetector(
+                                //       onTap: () async {
+                                //         await AddDelegateModal.bottomModalPopup(
+                                //                 context)
+                                //             .then((value) {
+                                //           setState(() {
+                                //             //var newValue = value as DelegateModel(f);
+                                //             thirdDelegateData = value;
+                                //             thirdDelegate = thirdDelegateData ==
+                                //                     null
+                                //                 ? ''
+                                //                 : getInitials(thirdDelegateData!
+                                //                         .firstName +
+                                //                     " " +
+                                //                     thirdDelegateData!
+                                //                         .lastName);
+                                //           });
+                                //         });
+                                //       },
+                                //       child: Container(
+                                //         width: 60.0,
+                                //         height: 60.0,
+                                //         decoration: BoxDecoration(
+                                //             shape: BoxShape.circle,
+                                //             boxShadow: [
+                                //               BoxShadow(
+                                //                 blurRadius: 50,
+                                //                 offset: const Offset(0, 30),
+                                //                 color: kDarkGrayColor
+                                //                     .withOpacity(0.20),
+                                //               ),
+                                //             ],
+                                //             color: kYellowColor),
+                                //         child: thirdDelegate.isEmpty
+                                //             ? const Icon(
+                                //                 Icons.person_add,
+                                //                 color: kWhiteColor,
+                                //                 size: 30.0,
+                                //               )
+                                //             : Center(
+                                //                 child: Text(
+                                //                   thirdDelegate,
+                                //                   style: const TextStyle(
+                                //                       color: kWhiteColor,
+                                //                       fontSize: 18.0,
+                                //                       fontWeight:
+                                //                           FontWeight.bold,
+                                //                       fontFamily: kDefaultFont),
+                                //                 ),
+                                //               ),
+                                //       ),
+                                //     ),
+                                //     const SizedBox(
+                                //       width: 5.0,
+                                //     ),
+                                //   ],
+                                // ),
+
                                 const SizedBox(
                                   height: 30.0,
                                 ),

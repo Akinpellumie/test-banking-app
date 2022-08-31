@@ -5,10 +5,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 import '../../helpers/theme_helper.dart';
 import '../../utils/constants.dart';
 import '../../utils/security_tip_modal.dart';
-import '../../utils/snackbar_content_type.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
-import '../../widgets/custom_snackbar.dart';
 import '../../widgets/select_delegate_modal.dart';
 
 class DelegateAccessScreen extends StatefulWidget {

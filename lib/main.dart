@@ -4,6 +4,7 @@ import 'package:mobile_banking_app/screens/auth/change_password_screen.dart';
 import 'package:mobile_banking_app/screens/auth/login_screen.dart';
 import 'package:mobile_banking_app/screens/auth/register_screen.dart';
 import 'package:mobile_banking_app/screens/delegate/delegate_access_screen.dart';
+import 'package:mobile_banking_app/screens/delegate/delegate_main_screen.dart';
 import 'package:mobile_banking_app/screens/home/home_screen.dart';
 import 'package:mobile_banking_app/screens/others/more_option_screen.dart';
 import 'package:mobile_banking_app/screens/others/payment_history_screen.dart';
@@ -84,6 +85,10 @@ Route<dynamic> _onGenerateRoute(RouteSettings settings) {
     case "/buy-airtime":
       return MaterialPageRoute(builder: (BuildContext context) {
         return const BuyAirtimeScreen();
+      });
+    case "/delegate-main":
+      return MaterialPageRoute(builder: (BuildContext context) {
+        return const DelegateMainScreen();
       });
     case "/pay-bill":
       return MaterialPageRoute(builder: (BuildContext context) {

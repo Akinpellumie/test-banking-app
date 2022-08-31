@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import '../../helpers/theme_helper.dart';
+import '../../utils/assets_path.dart';
 import '../../utils/constants.dart';
 import '../../utils/security_tip_modal.dart';
 import '../../widgets/app_button.dart';
@@ -16,7 +17,6 @@ class PayBillScreen extends StatefulWidget {
 }
 
 class _PayBillScreenState extends State<PayBillScreen> {
-  
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -31,6 +31,7 @@ class _PayBillScreenState extends State<PayBillScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColor,
@@ -67,7 +68,7 @@ class _PayBillScreenState extends State<PayBillScreen> {
                           height: 10.0,
                         ),
                         Text(
-                          "Pay Bill",
+                          "Utility",
                           style:
                               Theme.of(context).textTheme.headline6!.copyWith(
                                     fontWeight: FontWeight.w600,
@@ -77,12 +78,13 @@ class _PayBillScreenState extends State<PayBillScreen> {
                         const SizedBox(
                           height: 5.0,
                         ),
-                        const Text(
-                          "Pay your utility bill at your convenience!",
+                        Text(
+                          "Buy airtime and pay utility bill at your convenience!",
                           style: TextStyle(
-                              color: kWhiteColor,
-                              fontWeight: FontWeight.normal,
-                              fontSize: kNormalText - 3),
+                            color: kWhiteColor,
+                            fontWeight: FontWeight.normal,
+                            fontSize: size.height * 0.0170,
+                          ),
                         ),
                       ],
                     ),
@@ -105,97 +107,138 @@ class _PayBillScreenState extends State<PayBillScreen> {
                       ),
                       padding: const EdgeInsets.all(24.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const SizedBox(height: 5.0),
-                          const Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              'Balance: N 500,000',
-                              style: TextStyle(
-                                  color: kTextColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: kNormalText),
-                            ),
+                          const SizedBox(
+                            height: 20.0,
                           ),
-                          const SizedBox(height: 10.0),
-                          Form(
-                            //key: _loginViewModel.formKey,
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
-                                    decoration: ThemeHelper()
-                                        .amountInputDecoration(
-                                            'Amount', 'Enter amount'),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "User ID",
-                                        //   'Enter a valid user ID',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("userId");
-                                      }
-                                      return null;
-                                    },
-                                    // controller:
-                                    //     _loginViewModel.userIdController,
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                  decoration:
-                                      ThemeHelper().inputBoxDecorationShaddow(),
-                                ),
-                                const SizedBox(height: 20.0),
-                                Container(
-                                  child: TextFormField(
-                                    //readOnly: _loginViewModel.loggingIn,
-                                    decoration: ThemeHelper()
-                                        .textInputDecoration('Unique Number',
-                                            'Enter unique number'),
-                                    validator: (v) {
-                                      if (!RequiredValidator(
-                                        errorText: '',
-                                      ).isValid(v)) {
-                                        // _loginViewModel.setError(
-                                        //   "User ID",
-                                        //   'Enter a valid user ID',
-                                        // );
-                                      } else {
-                                        // _loginViewModel
-                                        //     .removeError("userId");
-                                      }
-                                      return null;
-                                    },
-                                    // controller:
-                                    //     _loginViewModel.userIdController,
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                  decoration:
-                                      ThemeHelper().inputBoxDecorationShaddow(),
-                                ),
-                                const SizedBox(height: 20.0),
-                                AppButton(
-                                  type: ButtonType.primary,
-                                  text: "Continue",
-                                  onPressed: () {
-                                    //nextScreen(context, "/login");
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 20.0,
-                                ),
-                              ],
+                          SvgPicture.asset(
+                            AssetsPath.comingSoon,
+                            height: size.height * 0.30,
+                            width: size.width * 0.60,
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            "This Feature is \n Coming Soon!!!",
+                            style: TextStyle(
+                              color: kTextColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: size.height * 0.0250,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
                     ),
                   ),
+
+                  // Flexible(
+                  //   child: Container(
+                  //     width: double.infinity,
+                  //     constraints: BoxConstraints(
+                  //       minHeight: MediaQuery.of(context).size.height - 100.0,
+                  //     ),
+                  //     decoration: const BoxDecoration(
+                  //       borderRadius: BorderRadius.only(
+                  //         topLeft: Radius.circular(30.0),
+                  //         topRight: Radius.circular(30.0),
+                  //       ),
+                  //       color: Colors.white,
+                  //     ),
+                  //     padding: const EdgeInsets.all(24.0),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.stretch,
+                  //       children: [
+                  //         const SizedBox(height: 5.0),
+                  //         const Align(
+                  //           alignment: Alignment.centerRight,
+                  //           child: Text(
+                  //             'Balance: N 500,000',
+                  //             style: TextStyle(
+                  //                 color: kTextColor,
+                  //                 fontWeight: FontWeight.bold,
+                  //                 fontSize: kNormalText),
+                  //           ),
+                  //         ),
+                  //         const SizedBox(height: 10.0),
+                  //         Form(
+                  //           //key: _loginViewModel.formKey,
+                  //           child: Column(
+                  //             children: [
+                  //               Container(
+                  //                 child: TextFormField(
+                  //                   //readOnly: _loginViewModel.loggingIn,
+                  //                   decoration: ThemeHelper()
+                  //                       .amountInputDecoration(
+                  //                           'Amount', 'Enter amount'),
+                  //                   validator: (v) {
+                  //                     if (!RequiredValidator(
+                  //                       errorText: '',
+                  //                     ).isValid(v)) {
+                  //                       // _loginViewModel.setError(
+                  //                       //   "User ID",
+                  //                       //   'Enter a valid user ID',
+                  //                       // );
+                  //                     } else {
+                  //                       // _loginViewModel
+                  //                       //     .removeError("userId");
+                  //                     }
+                  //                     return null;
+                  //                   },
+                  //                   // controller:
+                  //                   //     _loginViewModel.userIdController,
+                  //                   keyboardType: TextInputType.text,
+                  //                 ),
+                  //                 decoration:
+                  //                     ThemeHelper().inputBoxDecorationShaddow(),
+                  //               ),
+                  //               const SizedBox(height: 20.0),
+                  //               Container(
+                  //                 child: TextFormField(
+                  //                   //readOnly: _loginViewModel.loggingIn,
+                  //                   decoration: ThemeHelper()
+                  //                       .textInputDecoration('Unique Number',
+                  //                           'Enter unique number'),
+                  //                   validator: (v) {
+                  //                     if (!RequiredValidator(
+                  //                       errorText: '',
+                  //                     ).isValid(v)) {
+                  //                       // _loginViewModel.setError(
+                  //                       //   "User ID",
+                  //                       //   'Enter a valid user ID',
+                  //                       // );
+                  //                     } else {
+                  //                       // _loginViewModel
+                  //                       //     .removeError("userId");
+                  //                     }
+                  //                     return null;
+                  //                   },
+                  //                   // controller:
+                  //                   //     _loginViewModel.userIdController,
+                  //                   keyboardType: TextInputType.text,
+                  //                 ),
+                  //                 decoration:
+                  //                     ThemeHelper().inputBoxDecorationShaddow(),
+                  //               ),
+                  //               const SizedBox(height: 20.0),
+                  //               AppButton(
+                  //                 type: ButtonType.primary,
+                  //                 text: "Continue",
+                  //                 onPressed: () {
+                  //                   //nextScreen(context, "/login");
+                  //                 },
+                  //               ),
+                  //               const SizedBox(
+                  //                 height: 20.0,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

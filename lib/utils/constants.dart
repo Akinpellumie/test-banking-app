@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const kBackgroundColor = Color.fromRGBO(245, 247, 249, 1);
 const kPrimaryColor = Color.fromRGBO(86, 215, 188, 1);
 const kLoginBgColor = Color.fromRGBO(237, 236, 246, 1);
-const kPrimaryDarkColor = Color.fromARGB(255, 8, 129, 103);
+const kPrimaryDarkColor = Color.fromRGBO(8, 129, 103, 1);
 const kSuccessColor = Color.fromRGBO(76, 201, 141, 1);
 const kRedColor = Color.fromRGBO(233, 52, 75, 1);
 const kTextColor = Color.fromARGB(255, 79, 79, 79);

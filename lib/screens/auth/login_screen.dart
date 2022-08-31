@@ -185,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   loading: _loginViewModel.loggingIn,
                                   onPressed: () {
                                     _loginViewModel.loginUser(context);
+                                    //nextScreen(context, "/home");
                                   },
                                   // onPressed: () {},
                                 ),
