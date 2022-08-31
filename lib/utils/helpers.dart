@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 import 'constants.dart';
 
 void nextScreen(BuildContext context, String route) {
   Navigator.of(context).pushNamed(route);
 }
+
+String formatAmountInNaira(double value) =>
+    "N ${NumberFormat("#,##0.00", "en_US").format(value)}";
 
 String getInitials(String fullname) => fullname.isNotEmpty
     ? fullname.trim().split(' ').map((l) => l[0]).take(2).join().toUpperCase()

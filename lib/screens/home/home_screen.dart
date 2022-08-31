@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 10.0,
                           ),
                           TitleWithMoreBtn(
                             title: 'Payments',

@@ -53,7 +53,13 @@ class DelegateModalViewModel extends ChangeNotifier {
       }
     } on Exception catch (e) {
       print(e);
-    } finally {}
+    } finally {
+      _firstNameController.text = '';
+      _lastNameController.text = '';
+      _emailController.text = '';
+      _phoneController.text = '';
+      _maxAmountController.text = '';
+    }
   }
 
   @override

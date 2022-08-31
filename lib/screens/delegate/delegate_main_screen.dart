@@ -4,6 +4,7 @@ import 'package:mobile_banking_app/components/empty_list.dart';
 import '../../model/delegate/delegate_model.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/random_color.dart';
 import '../../utils/security_tip_modal.dart';
 import '../../widgets/add_delegate_modal.dart';
 import '../../widgets/custom_back_button.dart';
@@ -16,7 +17,6 @@ class DelegateMainScreen extends StatefulWidget {
 }
 
 class _DelegateMainScreenState extends State<DelegateMainScreen> {
-
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -28,14 +28,11 @@ class _DelegateMainScreenState extends State<DelegateMainScreen> {
     });
     super.initState();
   }
-  
-  String firstDelegate = '';
-  String secondDelegate = '';
-  String thirdDelegate = '';
-  late DelegateModel? firstDelegateData;
-  late DelegateModel? secondDelegateData;
-  late DelegateModel? thirdDelegateData;
 
+  late DelegateModel? delegateData;
+  List<DelegateModel> delegateList = [];
+
+  final ScrollController _controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,19 +40,23 @@ class _DelegateMainScreenState extends State<DelegateMainScreen> {
       backgroundColor: kPrimaryColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await AddDelegateModal.bottomModalPopup(context).then((value) {
-            setState(() {
-              //var newValue = value as DelegateModel(f);
-              firstDelegateData = value;
-              firstDelegate = firstDelegateData == null
-                  ? ''
-                  : getInitials(
-                      firstDelegateData!.firstName +
-                          " " +
-                          firstDelegateData!.lastName,
-                    );
-            });
-          });
+          if (delegateList.length >= 3) {
+            displayToast(
+              "You've reached the maximum number of delegate.",
+              kPrimaryDarkColor,
+            );
+          } else {
+            await AddDelegateModal.bottomModalPopup(context).then(
+              (value) {
+                setState(
+                  () {
+                    delegateData = value;
+                    delegateList.add(value);
+                  },
+                );
+              },
+            );
+          }
         },
         backgroundColor: kPrimaryColor,
         child: const Icon(
@@ -122,14 +123,155 @@ class _DelegateMainScreenState extends State<DelegateMainScreen> {
                         (BuildContext context, int index) {
                           return SizedBox(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(
                                   height: 20.0,
                                 ),
-                                EmptyList(
-                                    size: size,
-                                    msg:
-                                        'No delegate found. Click the "+" to get started.')
+                                Visibility(
+                                  visible: delegateList.isNotEmpty,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "My Delegates",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: kTextColor,
+                                          fontFamily: kDefaultFont,
+                                          fontSize: size.height * 0.019,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                delegateList.isEmpty
+                                    ? EmptyList(
+                                        size: size,
+                                        msg:
+                                            'No delegate found. Click the "+" to get started.',
+                                      )
+                                    : ListView.separated(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(), // new
+                                        controller: _controller,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Container(
+                                            padding: const EdgeInsets.all(10.0),
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: kWhiteColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color.fromARGB(
+                                                          107, 210, 212, 214)
+                                                      .withOpacity(0.65),
+                                                  spreadRadius: 0,
+                                                  blurRadius: 8.0,
+                                                  offset: const Offset(0.5, 1),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      right:
+                                                          kDefaultPadding / 2),
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  decoration: BoxDecoration(
+                                                    color: randomColor(),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Text(
+                                                    getInitials(
+                                                      '${delegateList[index].firstName} ${delegateList[index].lastName}',
+                                                    ),
+                                                    style: TextStyle(
+                                                      fontFamily: kDefaultFont,
+                                                      fontSize:
+                                                          size.height * 0.0200,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10.0,
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        '${delegateList[index].firstName} ${delegateList[index].lastName}',
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              kDefaultFont,
+                                                          fontSize:
+                                                              size.height *
+                                                                  0.020,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10.0,
+                                                      ),
+                                                      Text(
+                                                        delegateList[index]
+                                                            .email,
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              kDefaultFont,
+                                                          fontSize:
+                                                              size.height *
+                                                                  0.014,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Text(
+                                                  formatAmountInNaira(
+                                                    double.parse(
+                                                        delegateList[index]
+                                                            .maxAmount),
+                                                  ),
+                                                  style: TextStyle(
+                                                    fontFamily: kDefaultFont,
+                                                    fontSize:
+                                                        size.height * 0.014,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return const SizedBox(
+                                            height: 10.0,
+                                          );
+                                        },
+                                        itemCount: delegateList.length,
+                                      ),
                               ],
                             ),
                           );
