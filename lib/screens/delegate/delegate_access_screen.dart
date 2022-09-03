@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:mobile_banking_app/utils/helpers.dart';
 
+import '../../database/delegate_database.dart';
 import '../../helpers/theme_helper.dart';
+import '../../model/delegate/delegate.dart';
 import '../../utils/constants.dart';
 import '../../utils/security_tip_modal.dart';
+import '../../utils/shared_prefs.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_back_button.dart';
 import '../../widgets/select_delegate_modal.dart';
@@ -17,8 +21,9 @@ class DelegateAccessScreen extends StatefulWidget {
 }
 
 class _DelegateAccessScreenState extends State<DelegateAccessScreen> {
-  String selectedDelegate = '';
-
+  late Delegate? selectedDelegate;
+  bool isDelegateAdded = false;
+  List<Delegate> delegates = [];
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -28,6 +33,7 @@ class _DelegateAccessScreenState extends State<DelegateAccessScreen> {
         'Do not respond to emails that claim to be from Test Mobile Bank (or any other company) requesting your account details or login credentials (username/password). We will never ask for your personal information online.',
       );
     });
+    getDelegates();
     super.initState();
   }
 
@@ -155,13 +161,24 @@ class _DelegateAccessScreenState extends State<DelegateAccessScreen> {
                                 const SizedBox(height: 20.0),
                                 GestureDetector(
                                   onTap: () async {
-                                    await SelectDelegateModal.bottomModalPopup(
-                                            context)
-                                        .then((value) {
-                                      setState(() {
-                                        selectedDelegate = value ?? '';
+                                    if (delegates.isEmpty) {
+                                      displayToast(
+                                        'You have not added any delegates yet.',
+                                        kYellowColor,
+                                      );
+                                      return;
+                                    } else {
+                                      await SelectDelegateModal
+                                          .bottomModalPopup(
+                                        context,
+                                        delegates,
+                                      ).then((value) {
+                                        setState(() {
+                                          selectedDelegate = value;
+                                          isDelegateAdded = true;
+                                        });
                                       });
-                                    });
+                                    }
                                   },
                                   child: Container(
                                       width: double.infinity,
@@ -171,9 +188,11 @@ class _DelegateAccessScreenState extends State<DelegateAccessScreen> {
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          selectedDelegate.isEmpty
-                                              ? 'Select Delegate'
-                                              : selectedDelegate,
+                                          isDelegateAdded
+                                              ? selectedDelegate == null
+                                                  ? 'Select Delegate'
+                                                  : selectedDelegate!.fullname
+                                              : 'Select Delegate',
                                           textAlign: TextAlign.start,
                                           style: const TextStyle(
                                             fontFamily: kDefaultFont,
@@ -221,7 +240,10 @@ class _DelegateAccessScreenState extends State<DelegateAccessScreen> {
                                   type: ButtonType.primary,
                                   text: "Continue",
                                   onPressed: () {
-                                    //nextScreen(context, "/login");
+                                    displayToast(
+                                      'This feature is not available at the moment. Please check back later!',
+                                      kPrimaryDarkColor,
+                                    );
                                   },
                                 ),
                                 const SizedBox(
@@ -241,5 +263,10 @@ class _DelegateAccessScreenState extends State<DelegateAccessScreen> {
         ),
       ),
     );
+  }
+
+  Future getDelegates() async {
+    String userId = await SharedPrefs.getString('userID');
+    delegates = await DelegateDatabase.instance.readAllDelegates(userId);
   }
 }

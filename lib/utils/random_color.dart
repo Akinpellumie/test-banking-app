@@ -13,3 +13,12 @@ Color randomColor() {
   colorCollection.add(kPrimaryColor);
   return colorCollection[_random.nextInt(colorCollection.length)];
 }
+
+Color randomProfileBgColor() {
+  final List<Color> colorCollection = <Color>[];
+  final _random = Random();
+  colorCollection.add(kPinkColor);
+  colorCollection.add(Colors.blueAccent);
+  colorCollection.add(kPrimaryDarkColor);
+  return colorCollection[_random.nextInt(colorCollection.length)];
+}
