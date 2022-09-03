@@ -210,9 +210,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   type: ButtonType.primary,
                                   text: "Submit",
                                   onPressed: () {
-                                    displayToast('Password change successfully',
-                                        kPrimaryColor);
-                                    nextScreen(context, "/");
+                                    displayToast(
+                                        'Feature unavailable at the moment. Please check back later!',
+                                        kPrimaryDarkColor);
+                                    //nextScreen(context, "/");
                                   },
                                 ),
                                 const SizedBox(

@@ -101,6 +101,9 @@ class _DelegateMainScreenState extends State<DelegateMainScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       const CustomBackButton(),
                       const SizedBox(
                         height: 10.0,

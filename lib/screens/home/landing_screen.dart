@@ -69,7 +69,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   children: [
                     const SizedBox(height: 20.0),
                     Text(
-                      "Welcome to TestMobile-App!",
+                      "Welcome to Test-Bank App!",
                       style: Theme.of(context).textTheme.headline6!.copyWith(
                             fontWeight: FontWeight.w600,
                             color: const Color.fromRGBO(19, 22, 33, 1),
@@ -79,14 +79,14 @@ class _LandingScreenState extends State<LandingScreen> {
                       height: 10.0,
                     ),
                     const Text(
-                      "This is the first version of our TestMobile app. Please login or register below.",
+                      "This is the first version of our Test-Bank App. Please login or register below.",
                       style: TextStyle(
                         color: Color.fromRGBO(74, 77, 84, 1),
                         fontSize: 14.0,
                       ),
                     ),
                     const SizedBox(
-                      height: 40.0,
+                      height: 30.0,
                     ),
                     // Let's create a generic button widget
                     AppButton(
